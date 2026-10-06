@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OsoPredict — Daily Soccer Predictions &amp; Tips</title>
+<meta name="description" content="OsoPredict delivers daily soccer predictions, expert tips and the best odds. Join our Telegram for free VIP picks.">
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<!-- Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#050a14;
+    --surface:#0d1729;
+    --surface-2:#12203a;
+    --border:rgba(255,255,255,.08);
+    --text:#e9f0fb;
+    --muted:#8698b8;
+    --accent:#00e07a;
+    --accent-2:#00b4ff;
+    --tg:#29a9eb;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(720px 420px at 8% -8%, rgba(0,224,122,.13), transparent 62%),
+      radial-gradient(680px 420px at 98% -2%, rgba(0,150,255,.12), transparent 62%);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    background:rgba(5,10,20,.78);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    padding:.7rem 0;
+  }
+  .brand-logo{
+    width:36px;height:36px;border-radius:11px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;
+    color:#04121f;font-weight:900;font-size:1rem;
+    box-shadow:0 6px 18px rgba(0,224,122,.28);
+  }
+  .brand-name{
+    font-weight:800;font-size:1.18rem;letter-spacing:-.5px;margin:0;line-height:1;
+  }
+  .brand-name span{ color:var(--accent); }
+
+  /* ---------- BUTTONS ---------- */
+  .btn-tg{
+    background:linear-gradient(135deg,#33b3f0,#1e88d0);
+    border:none;color:#fff;font-weight:700;
+    border-radius:999px;padding:.72rem 1.5rem;
+    display:inline-flex;align-items:center;gap:.55rem;
+    box-shadow:0 8px 24px rgba(41,169,235,.32);
+    transition:transform .22s ease, box-shadow .22s ease, filter .22s ease;
+    text-decoration:none;
+    font-size:.92rem;
+  }
+  .btn-tg:hover{
+    color:#fff;transform:translateY(-2px);
+    box-shadow:0 14px 32px rgba(41,169,235,.48);
+    filter:brightness(1.06);
+  }
+  .btn-tg i{ font-size:1.15rem; }
+
+  .btn-ghost{
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.04);
+    color:var(--text);font-weight:600;
+    border-radius:999px;padding:.72rem 1.5rem;
+    font-size:.92rem;text-decoration:none;
+    display:inline-flex;align-items:center;gap:.5rem;
+    transition:.22s ease;
+  }
+  .btn-ghost:hover{
+    color:var(--text);
+    border-color:rgba(0,224,122,.45);
+    background:rgba(0,224,122,.08);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:60px 0 26px; text-align:center; }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:.45rem;
+    background:rgba(0,224,122,.1);
+    border:1px solid rgba(0,224,122,.28);
+    color:#7dffc0;
+    font-size:.72rem;font-weight:700;
+    letter-spacing:.09em;text-transform:uppercase;
+    padding:.4rem .95rem;border-radius:999px;
+    margin-bottom:1.2rem;
+  }
+  .hero-badge .dot{
+    width:7px;height:7px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 0 rgba(0,224,122,.7);
+    animation:pulse 1.9s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(0,224,122,.65);}
+    70%{box-shadow:0 0 0 9px rgba(0,224,122,0);}
+    100%{box-shadow:0 0 0 0 rgba(0,224,122,0);}
+  }
+  .hero h1{
+    font-weight:900;
+    font-size:clamp(1.95rem,5.4vw,3.35rem);
+    line-height:1.08;
+    letter-spacing:-1.4px;
+    margin:0 0 1rem;
+  }
+  .gradient-text{
+    background:linear-gradient(100deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;
+  }
+  .hero p.lead-text{
+    color:var(--muted);
+    max-width:580px;margin:0 auto;
+    font-size:clamp(.94rem,2.4vw,1.05rem);
+    line-height:1.65;
+  }
+  .hero-actions{
+    display:flex;gap:.7rem;justify-content:center;
+    flex-wrap:wrap;margin-top:1.9rem;
+  }
+  .stats{
+    display:flex;gap:.6rem;justify-content:center;
+    flex-wrap:wrap;margin-top:2.2rem;
+  }
+  .stat-chip{
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:.55rem 1.1rem;
+    font-size:.78rem;color:var(--muted);
+    font-weight:500;
+  }
+  .stat-chip strong{ color:var(--text);font-weight:800; }
+
+  /* ---------- SECTION ---------- */
+  .section-head{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem;
+  }
+  .section-title{
+    font-weight:800;font-size:1.3rem;
+    letter-spacing:-.4px;margin:0;
+    display:flex;align-items:center;gap:.55rem;
+  }
+  .section-title i{ color:var(--accent);font-size:1.15rem; }
+  .count-pill{
+    background:rgba(0,224,122,.12);
+    border:1px solid rgba(0,224,122,.3);
+    color:#7dffc0;font-size:.7rem;font-weight:800;
+    padding:.22rem .6rem;border-radius:999px;
+    letter-spacing:.03em;
+  }
+  .updated-text{ color:var(--muted);font-size:.76rem; }
+
+  .filters{
+    display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1.3rem;
+  }
+  .filter-btn{
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border);
+    color:var(--muted);
+    border-radius:999px;
+    padding:.42rem 1rem;
+    font-size:.78rem;font-weight:700;
+    transition:.2s ease;cursor:pointer;
+    white-space:nowrap;
+  }
+  .filter-btn:hover{ color:var(--text);border-color:rgba(0,224,122,.4); }
+  .filter-btn.active{
+    background:var(--accent);color:#04121f;border-color:var(--accent);
+    box-shadow:0 6px 16px rgba(0,224,122,.28);
+  }
+
+  /* ---------- PREDICTION CARD ---------- */
+  .pred-card{
+    position:relative;
+    height:100%;
+    display:flex;flex-direction:column;gap:.62rem;
+    padding:.85rem;
+    border-radius:16px;
+    background:linear-gradient(180deg,#101c31 0%,#0b1424 100%);
+    border:1px solid var(--border);
+    overflow:hidden;
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+  }
+  .pred-card::after{
+    content:'';
+    position:absolute;inset:0;border-radius:16px;
+    background:linear-gradient(180deg,rgba(0,224,122,.09),transparent 48%);
+    opacity:0;transition:opacity .25s ease;pointer-events:none;
+  }
+  .pred-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,224,122,.35);
+    box-shadow:0 18px 36px rgba(0,0,0,.5);
+  }
+  .pred-card:hover::after{ opacity:1; }
+
+  .card-top{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:.4rem;
+    font-size:.6rem;font-weight:700;
+    letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);
+    position:relative;z-index:1;
+  }
+  .league-tag{
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    min-width:0;flex:1 1 auto;
+  }
+  .time-tag{
+    white-space:nowrap;flex:0 0 auto;
+    display:inline-flex;align-items:center;gap:.22rem;
+    color:#9fb2d1;
+  }
+  .time-tag i{ font-size:.68rem; }
+
+  .teams{
+    display:flex;flex-direction:column;gap:.42rem;
+    position:relative;z-index:1;
+  }
+  .team-row{
+    display:flex;align-items:center;gap:.5rem;min-width:0;
+  }
+  .team-badge{
+    flex:0 0 auto;
+    width:26px;height:26px;border-radius:9px;
+    display:grid;place-items:center;
+    font-size:.58rem;font-weight:900;letter-spacing:.02em;
+    background:linear-gradient(135deg,#1d2f4d,#152340);
+    border:1px solid rgba(255,255,255,.09);
+    color:#cfe0f7;
+  }
+  .team-badge.home{
+    background:linear-gradient(135deg,rgba(0,224,122,.26),rgba(0,224,122,.07));
+    border-color:rgba(0,224,122,.38);
+    color:#7dffc0;
+  }
+  .team-name{
+    font-size:.79rem;font-weight:600;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    min-width:0;
+  }
+
+  .pred-meta{
+    display:grid;grid-template-columns:1fr 1fr;gap:.45rem;
+    margin-top:auto;padding-top:.62rem;
+    border-top:1px solid rgba(255,255,255,.06);
+    position:relative;z-index:1;
+  }
+  .meta-box{
+    background:rgba(255,255,255,.035);
+    border-radius:10px;
+    padding:.42rem .3rem;
+    text-align:center;min-width:0;
+  }
+  .meta-label{
+    display:block;
+    font-size:.53rem;font-weight:800;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:.12rem;
+  }
+  .meta-value{
+    display:block;
+    font-size:.79rem;font-weight:800;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .tip-value{ color:#e9f0fb; }
+  .odds-value{ color:var(--accent); }
+
+  /* ---------- TELEGRAM CTA ---------- */
+  .tg-card{
+    border-radius:24px;
+    padding:2.4rem 1.4rem;
+    text-align:center;
+    background:
+      radial-gradient(500px 240px at 50% 0%, rgba(41,169,235,.2), transparent 70%),
+      linear-gradient(135deg,rgba(41,169,235,.14),rgba(0,224,122,.08));
+    border:1px solid rgba(41,169,235,.26);
+    position:relative;overflow:hidden;
+  }
+  .tg-icon{
+    width:64px;height:64px;border-radius:20px;
+    background:linear-gradient(135deg,#33b3f0,#1e88d0);
+    display:grid;place-items:center;
+    font-size:1.9rem;color:#fff;
+    margin:0 auto 1.1rem;
+    box-shadow:0 12px 30px rgba(41,169,235,.4);
+  }
+  .tg-card h3{
+    font-weight:900;font-size:clamp(1.25rem,3.6vw,1.75rem);
+    letter-spacing:-.6px;margin-bottom:.6rem;
+  }
+  .tg-card p{
+    color:var(--muted);max-width:520px;margin:0 auto 1.5rem;
+    font-size:.92rem;line-height:1.65;
+  }
+  .tg-perks{
+    display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;
+    margin-bottom:1.6rem;
+  }
+  .tg-perk{
+    background:rgba(255,255,255,.05);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:.4rem .9rem;
+    font-size:.74rem;color:var(--muted);font-weight:600;
+  }
+  .tg-perk i{ color:var(--accent);margin-right:.28rem; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--border);
+    padding:2.2rem 0 2.6rem;
+    margin-top:3.5rem;
+    color:var(--muted);
+    font-size:.8rem;
+  }
+  .footer-brand{
+    font-weight:800;color:var(--text);
+    font-size:1.02rem;letter-spacing:-.4px;
+  }
+  .footer-brand span{ color:var(--accent); }
+  .disclaimer{
+    font-size:.72rem;line-height:1.6;color:#5f7191;
+    max-width:640px;margin:1rem auto 0;
+  }
+
+  /* ---------- FLOATING TELEGRAM ---------- */
+  .fab{
+    position:fixed;right:16px;bottom:16px;z-index:1050;
+    width:56px;height:56px;border-radius:50%;
+    display:grid;place-items:center;
+    font-size:1.55rem;color:#fff;
+    background:linear-gradient(135deg,#33b3f0,#1e88d0);
+    box-shadow:0 12px 28px rgba(41,169,235,.5);
+    text-decoration:none;
+    transition:transform .2s ease;
+  }
+  .fab:hover{ color:#fff;transform:scale(1.07); }
+
+  @media (max-width:400px){
+    .pred-card{ padding:.72rem; gap:.5rem; border-radius:14px; }
+    .team-badge{ width:23px;height:23px;border-radius:8px;font-size:.53rem; }
+    .team-name{ font-size:.74rem; }
+    .meta-value{ font-size:.74rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <span class="brand-logo">O</span>
+      <span class="brand-name">Oso<span>Predict</span></span>
+    </a>
+
+    <div class="d-flex align-items-center gap-2 ms-auto">
+      <a href="#predictions" class="btn-ghost d-none d-lg-inline-flex">
+        <i class="bi bi-grid-3x3-gap-fill"></i> Predictions
+      </a>
+      <a href="https://t.me/OsoPredict" target="_blank" rel="noopener" class="btn-tg">
+        <i class="bi bi-telegram"></i> Join Telegram
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="dot"></span> Free Daily Picks • Updated Every Morning
+    </div>
+
+    <h1>
+      Smart <span class="gradient-text">Soccer Predictions</span><br>
+      You Can Actually Trust
+    </h1>
+
+    <p class="lead-text">
+      Handpicked match analysis, winning tips and the best odds — delivered daily by
+      <strong style="color:var(--text)">OsoPredict</strong>. 100% free inside our Telegram channel.
+    </p>
+
+    <div class="hero-actions">
+      <a href="https://t.me/OsoPredict" target="_blank" rel="noopener" class="btn-tg">
+        <i class="bi bi-telegram"></i> Join Telegram Channel
+      </a>
+      <a href="#predictions" class="btn-ghost">
+        <i class="bi bi-arrow-down-circle"></i> View Today's Tips
+      </a>
+    </div>
+
+    <div class="stats">
+      <span class="stat-chip"><strong>50+</strong> Daily Predictions</span>
+      <span class="stat-chip"><strong>1.30 – 4.20</strong> Odds Range</span>
+      <span class="stat-chip"><strong>24/7</strong> Telegram Support</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= PREDICTIONS ================= -->
+<main id="predictions" class="container" style="padding-top:2.6rem;">
+
+  <div class="section-head">
+    <h2 class="section-title">
+      <i class="bi bi-futbol"></i>
+      Today's Predictions
+      <span class="count-pill" id="countBadge">50</span>
+    </h2>
+    <span class="updated-text">
+      <i class="bi bi-arrow-repeat"></i>
+      Updated <span id="updatedAt">just now</span>
+    </span>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">All Picks</button>
+    <button class="filter-btn" data-filter="1x2">1X2</button>
+    <button class="filter-btn" data-filter="goals">Goals</button>
+    <button class="filter-btn" data-filter="btts">BTTS</button>
+    <button class="filter-btn" data-filter="handicap">Handicap</button>
+  </div>
+
+  <div class="row g-2 g-sm-3" id="predGrid"></div>
+
+  <!-- ============ TELEGRAM CTA ============ -->
+  <section class="tg-card mt-5">
+    <div class="tg-icon"><i class="bi bi-telegram"></i></div>
+    <h3>Get VIP Picks on Telegram — Free</h3>
+    <p>
+      Join thousands of punters getting our early drops, banker of the day, and
+      accumulator tips straight to their phones before kickoff.
+    </p>
+
+    <div class="tg-perks">
+      <span class="tg-perk"><i class="bi bi-check-circle-fill"></i>Daily Banker</span>
+      <span class="tg-perk"><i class="bi bi-check-circle-fill"></i>Early Odds Drops</span>
+      <span class="tg-perk"><i class="bi bi-check-circle-fill"></i>Accumulator Tips</span>
+      <span class="tg-perk"><i class="bi bi-check-circle-fill"></i>Free Forever</span>
+    </div>
+
+    <a href="https://t.me/OsoPredict" target="_blank" rel="noopener" class="btn-tg">
+      <i class="bi bi-telegram"></i> Join @OsoPredict
+    </a>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container text-center">
+    <div class="footer-brand">Oso<span>Predict</span></div>
+    <p class="mb-0 mt-2" style="color:#5f7191;font-size:.76rem;">
+      Daily soccer predictions, tips &amp; odds.
+    </p>
+    <p class="disclaimer">
+      Disclaimer: OsoPredict provides football predictions for informational and entertainment
+      purposes only. We do not accept bets and we do not guarantee winnings. Please gamble
+      responsibly — 18+ only.
+    </p>
+    <p class="mt-3 mb-0" style="color:#44536e;font-size:.72rem;">
+      © <span id="year"></span> OsoPredict. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+<!-- Floating Telegram button (mobile) -->
+<a href="https://t.me/OsoPredict" target="_blank" rel="noopener" class="fab d-lg-none" aria-label="Join Telegram">
+  <i class="bi bi-telegram"></i>
+</a>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* =========================================================
+   OsoPredict — Prediction Generator
+   ========================================================= */
+
+const TELEGRAM_URL = 'https://t.me/OsoPredict';
+
+/* ---------- Data pools ---------- */
+const TEAMS = [
+  'Arsenal','Chelsea','Liverpool','Man City','Man United','Tottenham','Newcastle','Aston Villa',
+  'Brighton','West Ham','Everton','Crystal Palace','Fulham','Brentford','Wolves','Nottingham',
+  'Real Madrid','Barcelona','Atletico','Sevilla','Real Betis','Valencia','Villarreal','Girona',
+  'Juventus','Inter','AC Milan','Napoli','Roma','Lazio','Atalanta','Fiorentina',
+  'Bayern','Dortmund','RB Leipzig','Leverkusen','Frankfurt','Stuttgart','Wolfsburg','Freiburg',
+  'PSG','Marseille','Lyon','Monaco','Lille','Nice','Rennes',
+  'Ajax','PSV','Feyenoord','Porto','Benfica','Sporting','Galatasaray','Fenerbahce',
+  'Celtic','Rangers','Inter Miami','LA Galaxy','Al Hilal','Al Nassr','Al Ahly','Raja CA'
+];
+
+const LEAGUES = [
+  'Premier League','La Liga','Serie A','Bundesliga','Ligue 1',
+  'Eredivisie','Primeira Liga','Champions League','Europa League',
+  'Super Lig','MLS','Saudi Pro League'
+];
+
+/* tip, min odds, max odds, group */
+const TIP_POOL = [
+  { tip:'1',          min:1.35, max:2.60, group:'1x2' },
+  { tip:'1',          min:1.40, max:2.40, group:'1x2' },
+  { tip:'X',          min:2.75, max:4.20, group:'1x2' },
+  { tip:'2',          min:1.45, max:3.00, group:'1x2' },
+  { tip:'1X',         min:1.18, max:1.60, group:'1x2' },
+  { tip:'X2',         min:1.22, max:1.75, group:'1x2' },
+  { tip:'12',         min:1.18, max:1.48, group:'1x2' },
+  { tip:'Over 1.5',   min:1.18, max:1.45, group:'goals' },
+  { tip:'Over 2.5',   min:1.55, max:2.10, group:'goals' },
+  { tip:'Over 3.5',   min:2.40, max:3.60, group:'goals' },
+  { tip:'Under 2.5',  min:1.70, max:2.35, group:'goals' },
+  { tip:'Under 3.5',  min:1.35, max:1.75, group:'goals' },
+  { tip:'GG',         min:1.55, max:2.10, group:'btts' },
+  { tip:'NG',         min:1.62, max:2.25, group:'btts' },
+  { tip:'Home -1',    min:1.80, max:3.20, group:'handicap' },
+  { tip:'Away +1',    min:1.28, max:1.85, group:'handicap' },
+  { tip:'Home -1.5',  min:2.20, max:3.80, group:'handicap' }
+];
+
+/* ---------- Helpers ---------- */
+const rand   = (min, max) => min + Math.random() * (max - min);
+const pick   = arr => arr[Math.floor(Math.random() * arr.length)];
+const initials = name =>
+  name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
+/* ---------- Kickoff generator ---------- */
+function makeKickoff() {
+  const offset = Math.floor(Math.random() * 3);        // today .. +2 days
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+
+  const hh = String(Math.floor(rand(11, 23))).padStart(2, '0');   // 11..22
+  const mm = pick(['00', '15', '30', '45']);
+
+  let label;
+  if (offset === 0) label = 'Today';
+  else if (offset === 1) label = 'Tomorrow';
+  else label = d.toLocaleDateString('en-GB', { weekday: 'short' });
+
+  return {
+    label: `${label} ${hh}:${mm}`,
+    sortKey: offset * 10000 + Number(hh) * 60 + Number(mm)
+  };
+}
+
+/* ---------- Build 50 predictions ---------- */
+function buildPredictions(count) {
+  const usedPairs = new Set();
+  const list = [];
+
+  for (let i = 0; i < count; i++) {
+    let home, away, key, guard = 0;
+
+    do {
+      home = pick(TEAMS);
+      away = pick(TEAMS);
+      key  = [home, away].sort().join('|');
+      guard++;
+    } while ((home === away || usedPairs.has(key)) && guard < 400);
+
+    usedPairs.add(key);
+
+    const t    = pick(TIP_POOL);
+    const odds = rand(t.min, t.max).toFixed(2);
+    const kick = makeKickoff();
+
+    list.push({
+      id: i + 1,
+      home,
+      away,
+      league: pick(LEAGUES),
+      time: kick.label,
+      sortKey: kick.sortKey,
+      tip: t.tip,
+      group: t.group,
+      odds
+    });
+  }
+
+  return list.sort((a, b) => a.sortKey - b.sortKey);
+}
+
+const PREDICTIONS = buildPredictions(50);
+
+/* ---------- Card template ---------- */
+function cardHTML(p) {
+  return `
+    <div class="col-6 col-md-4 col-lg-3">
+      <article class="pred-card">
+        <div class="card-top">
+          <span class="league-tag">${p.league}</span>
+          <span class="time-tag"><i class="bi bi-clock"></i>${p.time}</span>
+        </div>
+
+        <div class="teams">
+          <div class="team-row">
+            <span class="team-badge home">${initials(p.home)}</span>
+            <span class="team-name">${p.home}</span>
+          </div>
+          <div class="team-row">
+            <span class="team-badge">${initials(p.away)}</span>
+            <span class="team-name">${p.away}</span>
+          </div>
+        </div>
+
+        <div class="pred-meta">
+          <div class="meta-box">
+            <span class="meta-label">Tip</span>
+            <span class="meta-value tip-value">${p.tip}</span>
+          </div>
+          <div class="meta-box">
+            <span class="meta-label">Odds</span>
+            <span class="meta-value odds-value">${p.odds}</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  `;
+}
+
+/* ---------- Render ---------- */
+const grid       = document.getElementById('predGrid');
+const countBadge = document.getElementById('countBadge');
+
+function render(filter = 'all') {
+  const data = filter === 'all'
+    ? PREDICTIONS
+    : PREDICTIONS.filter(p => p.group === filter);
+
+  grid.innerHTML = data.map(cardHTML).join('');
+  countBadge.textContent = data.length;
+}
+
+/* ---------- Filters ---------- */
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+
+  document.querySelectorAll('.filter-btn')
+    .forEach(b => b.classList.remove('active'));
+
+  btn.classList.add('active');
+  render(btn.dataset.filter);
+});
+
+/* ---------- Footer year + timestamp ---------- */
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('updatedAt').textContent =
+  new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+/* ---------- Init ---------- */
+render();
+</script>
+
+</body>
+</html>
